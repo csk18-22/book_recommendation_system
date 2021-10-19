@@ -70,15 +70,27 @@ sns.barplot(x="average_rating", y="title", data=data, palette='inferno')
 # plt.figure(figsize=(15,10))
 # ax = sns.relplot(x="average_rating", y="num_pages", data = df, color = 'red',sizes=(100, 200), height=7, marker='o')
 # ax.set_axis_labels("Average Rating", "Number of Pages")
-page_bg_img = '''
-<style>
-body {
-background-color:powderblue;
-}
-</style>
-'''
 
-st.markdown(page_bg_img, unsafe_allow_html=True)
+import base64
+
+main_bg = "sample2.jpg"
+main_bg_ext = "jpg"
+
+st.markdown(
+    f"""
+    <style>
+    .reportview-container {{
+        background: url(data:image/{main_bg_ext};base64,{base64.b64encode(open(main_bg, "rb").read()).decode()});
+        background-size:cover;
+        
+        
+    }}
+   
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
 df2 = df.copy()
 # print(df2.title)
@@ -118,6 +130,8 @@ def BookRecommender(book_name):
     book_list_name = []
     dictionary = dict()
     
+    cols = st.columns(3)
+    
     book_id = df2[df2['title'] == book_name].index
     try:
         id = book_id[0]
@@ -130,21 +144,35 @@ def BookRecommender(book_name):
     else:
         book_id = book_id[0]
         ex = []
+        i=0
         for newid in idlist[book_id]:
+            
             book_list_name = []         
             name = df2.iloc[newid]['title']
             url = df2.iloc[newid]['thumbnail']
-            st.write(name)
+            cols[i].write(name)
 
             if ( url != 0):  
                 image = io.imread(url)   
                 img = cv2.imshow('image',image)
-                st.image(url)
+                cropped = crop(image,center=(70, 85), width=150, height=240)
+                cols[i].image(cropped)
+                if(i==2):
+                    i=0
+                else:
+                    i=i+1
             else:
-                print("Nottttt found")
+                #image = io.imread("https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png")  
+                #cropped = crop(image,center=(0, 0), width=300, height=300) 
+                cols[i].image("notfound.jpg",width=150)
+                if(i==2):
+                    i=0
+                else:
+                    i=i+1
 
 book_name = st.text_input("Book Name:", "")
 
 
-BookNames = BookRecommender(book_name)
 
+
+BookNames = BookRecommender(book_name)

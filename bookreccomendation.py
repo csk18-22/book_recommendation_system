@@ -162,9 +162,8 @@ def BookRecommender(book_name):
                 else:
                     i=i+1
             else:
-                #image = io.imread("https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png")  
-                #cropped = crop(image,center=(0, 0), width=300, height=300) 
-                cols[i].image("notfound.jpg",width=150)
+                
+                cols[i].image("imagenotfound.jpg",width=150)
                 if(i==2):
                     i=0
                 else:

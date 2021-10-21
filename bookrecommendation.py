@@ -30,7 +30,7 @@ min_max_scaler = MinMaxScaler()
 features = min_max_scaler.fit_transform(features)
 
 # KNN model
-model = neighbors.NearestNeighbors(n_neighbors=6, algorithm='ball_tree')
+model = neighbors.NearestNeighbors(n_neighbors=6, algorithm='auto')
 model.fit(features)
 dist, idlist = model.kneighbors(features)
 

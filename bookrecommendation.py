@@ -54,7 +54,7 @@ def BookRecommender(book_name):
         id = 0
 
     if (id == 0):
-        st.write("")
+        st.write("Book not Found !! Sorry :(")
     else:
         book_id = book_id[0]
         ex = []
